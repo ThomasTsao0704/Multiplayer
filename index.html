@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multiplayer Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ① 開始畫面 -->
+  <section id="start-screen" class="screen active">
+    <h1>Multiplayer Quiz</h1>
+    <p>輸入你的名字，開始挑戰！</p>
+    <input id="player-name" type="text" placeholder="你的名字" maxlength="20" />
+    <button id="btn-start">開始測驗</button>
+  </section>
+
+  <!-- ② 題目畫面 -->
+  <section id="quiz-screen" class="screen">
+    <div class="quiz-header">
+      <span id="quiz-progress">第 1 / 5 題</span>
+      <span id="quiz-timer">⏱ 15</span>
+    </div>
+    <h2 id="quiz-question"></h2>
+    <div id="quiz-options"></div>
+  </section>
+
+  <!-- ③ 結果畫面 -->
+  <section id="result-screen" class="screen">
+    <h1>測驗結束！</h1>
+    <p id="result-score"></p>
+    <button id="btn-leaderboard">查看排行榜</button>
+    <button id="btn-retry">再玩一次</button>
+  </section>
+
+  <!-- ④ 排行榜畫面 -->
+  <section id="leaderboard-screen" class="screen">
+    <h1>排行榜</h1>
+    <table id="leaderboard-table">
+      <thead>
+        <tr><th>#</th><th>名字</th><th>分數</th><th>時間</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button id="btn-back">回首頁</button>
+  </section>
+
+  <script src="quiz.js"></script>
+</body>
+</html>
