@@ -30,7 +30,7 @@ app.post("/api/submit", async (req, res) => {
         res.json({ status: "ok", message: "已儲存", id: result.rows[0].id });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "DB error" });
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -50,7 +50,7 @@ app.get("/api/leaderboard", async (req, res) => {
         res.json(result.rows);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "DB error" });
+        res.status(500).json({ error: err.message });
     }
 });
 
