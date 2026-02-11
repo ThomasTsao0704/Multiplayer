@@ -126,13 +126,13 @@ button:active {
 }
 
 .option-btn.correct {
-  border-color: #2ecc71;
-  background: rgba(46, 204, 113, 0.18);
+  border-color: #7c5cfc;
+  background: rgba(124, 92, 252, 0.18);
 }
 
 .option-btn.wrong {
-  border-color: #e74c3c;
-  background: rgba(231, 76, 60, 0.18);
+  border-color: #666;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .option-btn:disabled {
@@ -152,7 +152,28 @@ button:active {
   color: #7c5cfc;
 }
 
-#result-screen button {
+#result-analysis {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.6rem;
+  text-align: left;
+}
+
+#result-analysis h3 {
+  font-size: 1.2rem;
+  color: #7c5cfc;
+  margin-bottom: 0.5rem;
+}
+
+#result-analysis p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+.result-buttons button {
   margin: 0 0.4rem;
 }
 

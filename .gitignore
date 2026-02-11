@@ -1,2 +1,5 @@
 node_modules/
+__pycache__/
 .env
+nul
+quiz_results.json

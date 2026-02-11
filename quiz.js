@@ -1,38 +1,58 @@
 // ── 設定 ──
-const API_URL = "https://your-render-app.onrender.com"; // TODO: 換成你的 Render 網址
+const API_URL = "https://multiplayer-aj6e.onrender.com"; // TODO: 換成你的 Render 網址
 const TIME_PER_QUESTION = 15; // 每題秒數
 
 // ── 範例題庫（可自行替換） ──
 const questions = [
   {
-    q: "JavaScript 中，typeof null 的結果是？",
-    options: ["null", "undefined", "object", "number"],
-    answer: 2,
-  },
-  {
-    q: "HTTP 狀態碼 404 代表什麼？",
-    options: ["伺服器錯誤", "未授權", "找不到資源", "請求逾時"],
-    answer: 2,
-  },
-  {
-    q: "CSS 中 position: absolute 是相對於哪個元素定位？",
-    options: [
-      "瀏覽器視窗",
-      "最近的 positioned 祖先",
-      "父元素",
-      "body",
-    ],
+    q: "資訊來源單一化： 我過去一週收看的兩岸新聞，是否全都來自立場相近的媒體或社群帳號（例如：只看親綠、只看親藍，或只看特定官媒）？",
+    options: ["是", "否"],
     answer: 1,
   },
   {
-    q: "Git 指令中，哪個用來建立新分支？",
-    options: ["git branch", "git merge", "git clone", "git push"],
-    answer: 0,
+    q: "情感優先於事實： 當我看到一則嘲諷「對方陣營」的負面新聞時，我是否會立刻感到愉悅並順手轉發，而完全沒有想過要查證其真實性？",
+    options: ["是", "否"],
+    answer: 1,
   },
   {
-    q: "SQL 中用來篩選分組後資料的關鍵字是？",
-    options: ["WHERE", "GROUP BY", "HAVING", "ORDER BY"],
-    answer: 2,
+    q: "標籤化思考： 我是否傾向用「覺青」、「小粉紅」、「中共同路人」、「綠蛆」等標籤來概括所有與我立場不同的人？",
+    options: ["是", "否"],
+    answer: 1,
+  },
+  {
+    q: "無法陳述對手論點： 如果要我理性地、不帶嘲諷地寫出「對方陣營」最重要的三個論點，我是否完全寫不出來？",
+    options: ["是", "否"],
+    answer: 1,
+  },
+  {
+    q: "對質疑的生理反應： 當有人對我的兩岸政治觀點提出挑戰時，我是否會立刻感到憤怒、血壓升高，而不是感到好奇或想要釐清對方的邏輯？",
+    options: ["是", "否"],
+    answer: 1,
+  },
+    {
+    q: "避重就輕： 面對「我方陣營」顯而易見的錯誤或醜聞時，我是否會用「對方更壞」或「這只是局部問題」來防衛，而不願承認錯誤？",
+    options: ["是", "否"],
+    answer: 1,
+  },
+    {
+    q: "歷史與法律觀的絕對化： 我是否認為關於兩岸的歷史（如 2758 號決議、1945 年後的領土變更等）只有一種解釋，而其他解釋都是「謊言」或「洗腦」？",
+    options: ["是", "否"],
+    answer: 1,
+  },
+    {
+    q: "封閉的社交圈： 我的社群媒體或現實生活中，是否已經幾乎沒有立場與我迥異的朋友？（或者我已經封鎖了所有不同意見的人？）",
+    options: ["是", "否"],
+    answer: 1,
+  },
+    {
+    q: "恐懼驅動： 我支持某種立場，主要是因為「如果不這樣，台灣/中國就完蛋了」這種強烈的恐懼感嗎？",
+    options: ["是", "否"],
+    answer: 1,
+  },
+    {
+    q: "拒絕更新資訊： 如果今天出現了一份權威且客觀的證據，證明我過去相信的某個觀點是錯的，我是否會拒絕相信這份證據？",
+    options: ["是", "否"],
+    answer: 1,
   },
 ];
 
@@ -60,6 +80,7 @@ let score = 0;
 let answers = []; // 記錄每題選的 index
 let timerId = null;
 let timeLeft = 0;
+let quizStartTime = 0; // 整場測驗開始時間
 
 // ── 畫面切換 ──
 function showScreen(screen) {
@@ -72,6 +93,7 @@ $btnStart.addEventListener("click", () => {
   currentIndex = 0;
   score = 0;
   answers = [];
+  quizStartTime = Date.now();
   showScreen($quizScreen);
   renderQuestion();
 });
@@ -148,10 +170,48 @@ function handleAnswer(selectedIndex, clickedBtn) {
   }, 800);
 }
 
+// ── 分析結果 ──
+function getAnalysis(yesCount) {
+  if (yesCount <= 2) {
+    return {
+      level: "高韌性思考者",
+      text: "你保持著極佳的警覺性與多元資訊來源，大腦防毒軟體運作良好。",
+    };
+  } else if (yesCount <= 5) {
+    return {
+      level: "受影響警示期",
+      text: "你已經開始受到同溫層或演算法的強烈影響。建議開始主動接觸不同立場的原生資訊（而非二手的批評報導）。",
+    };
+  } else if (yesCount <= 8) {
+    return {
+      level: "思考結構受限",
+      text: "你的思考方式已經偏向二元對立，容易被情緒與口號驅動。建議嘗試「資訊斷食」或刻意閱讀反方立場的深度分析。",
+    };
+  } else {
+    return {
+      level: "高度被洗腦風險",
+      text: "這代表你的「自我校正機制」可能已經失靈。你的信念可能已經與自我價值完全綁定，這會讓你喪失判斷現實的能力。",
+    };
+  }
+}
+
 // ── 結束測驗 ──
 async function finishQuiz() {
   showScreen($resultScreen);
-  $resultScore.textContent = `你得了 ${score} / ${questions.length} 分`;
+
+  // 計算答「是」的次數（選了 index 0 = "是"，或超時 -1 也算「是」）
+  const yesCount = answers.filter((a) => a !== 1).length;
+  const analysis = getAnalysis(yesCount);
+
+  $resultScore.textContent = `你回答了 ${yesCount} / ${questions.length} 個「是」`;
+
+  const $analysis = document.getElementById("result-analysis");
+  $analysis.innerHTML =
+    `<h3>${analysis.level}</h3>` +
+    `<p>${analysis.text}</p>`;
+
+  // 計算總耗時（秒）
+  const timeUsed = parseFloat(((Date.now() - quizStartTime) / 1000).toFixed(1));
 
   // 送成績到後端
   try {
@@ -160,8 +220,9 @@ async function finishQuiz() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: $playerName.value.trim() || "匿名",
-        score,
-        answers: JSON.stringify(answers),
+        score: yesCount,
+        time_used: timeUsed,
+        quiz_id: "app88",
       }),
     });
   } catch (err) {
@@ -175,7 +236,7 @@ $btnLeaderboard.addEventListener("click", async () => {
   $leaderboardBody.innerHTML = "<tr><td colspan='4'>載入中…</td></tr>";
 
   try {
-    const res = await fetch(`${API_URL}/api/results`);
+    const res = await fetch(`${API_URL}/api/leaderboard?quiz_id=app88`);
     const rows = await res.json();
 
     if (rows.length === 0) {
