@@ -12,6 +12,14 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false }
 });
 
+// 除錯用（部署成功後可刪除）
+app.get("/api/debug", (req, res) => {
+    const url = process.env.DATABASE_URL || "(未設定)";
+    // 只顯示格式，隱藏密碼
+    const masked = url.replace(/\/\/([^:]+):([^@]+)@/, "//[$1]:***@");
+    res.json({ DATABASE_URL_format: masked });
+});
+
 // 存測驗結果
 app.post("/api/submit", async (req, res) => {
     const { name, score, time_used, quiz_id } = req.body;
