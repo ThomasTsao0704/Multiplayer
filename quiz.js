@@ -1,5 +1,5 @@
 // ── 設定 ──
-const API_URL = "https://multiplayer-api-i0oq.onrender.com";
+const API_URL = "https://multiplayer-1mz2.onrender.com";
 const TIME_PER_QUESTION = 15; // 每題秒數
 
 // ── 範例題庫（可自行替換） ──
