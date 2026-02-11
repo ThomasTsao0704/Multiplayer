@@ -1,5 +1,5 @@
 // ── 設定 ──
-const API_URL = "https://multiplayer-api-ejgo.onrender.com";
+const API_URL = "https://multiplayer-u52u.onrender.com";
 const TIME_PER_QUESTION = 15; // 每題秒數
 
 // ── 範例題庫（可自行替換） ──
